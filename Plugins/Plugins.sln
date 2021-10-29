@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1. Basic Plugin", "1. Basic Plugin\1. Basic Plugin.csproj", "{A8BAC7EE-371B-40FB-9C9C-318DE57EE77A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1. Basic Plugin", "Guides\1. Basic Plugin\1. Basic Plugin.csproj", "{A8BAC7EE-371B-40FB-9C9C-318DE57EE77A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2. Command Plugin", "2. Command Plugin\2. Command Plugin.csproj", "{9CE759BC-1E07-4B41-9D11-C051F1DB5653}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2. Command Plugin", "Guides\2. Command Plugin\2. Command Plugin.csproj", "{9CE759BC-1E07-4B41-9D11-C051F1DB5653}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3. Furniture Interaction", "3. Furniture Interaction\3. Furniture Interaction.csproj", "{B9836212-A555-403B-9D27-75662B55A020}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3. Furniture Interaction", "Guides\3. Furniture Interaction\3. Furniture Interaction.csproj", "{B9836212-A555-403B-9D27-75662B55A020}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Guides", "Guides", "{1A7AC672-9AE6-42E3-AA3F-380E40332711}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A8BAC7EE-371B-40FB-9C9C-318DE57EE77A} = {1A7AC672-9AE6-42E3-AA3F-380E40332711}
+		{9CE759BC-1E07-4B41-9D11-C051F1DB5653} = {1A7AC672-9AE6-42E3-AA3F-380E40332711}
+		{B9836212-A555-403B-9D27-75662B55A020} = {1A7AC672-9AE6-42E3-AA3F-380E40332711}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3000667E-CE08-478D-A5BD-4ED8D2E1B6EF}
