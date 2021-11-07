@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+	  <DebugType>Embedded</DebugType>
+	  <EmbedAllSources>True</EmbedAllSources>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gaia.Api" Version="1.0.0" />
+    <PackageReference Include="Sirius.Api" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
