@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Guides", "Guides", "{1A7AC6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{1A816660-B493-405B-9EFC-3FC1F49F3207}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperWireds", "SuperWireds\SuperWireds.csproj", "{A2FC2343-13C2-4250-B9FA-5B5BCF6E7263}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperWireds", "Plugins\SuperWireds\SuperWireds.csproj", "{A2FC2343-13C2-4250-B9FA-5B5BCF6E7263}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvatarPoof", "AvatarPoof\AvatarPoof.csproj", "{5BE1E4FF-BFAB-497F-A570-8E2879BEFEE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvatarPoof", "Plugins\AvatarPoof\AvatarPoof.csproj", "{5BE1E4FF-BFAB-497F-A570-8E2879BEFEE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
