@@ -61,7 +61,7 @@ namespace Sirius.Examples.Plugin.FurnitureInteraction
             furniObject.WalkBehavior = new WalkOnShowMessageWalkBehavior(furniObject);
 
             /// As well as a custom IClickBehavior.
-            furniObject.ClickBehavior = new ClickShowMessageBehavior();
+            furniObject.ClickBehavior = new ClickShowMessageBehavior(furniObject);
 
             // You don't need to implement every behavior. Anything unassigned gets the default behavior:
             // DefaultWalkBehavior, DefaultClickBehavior and DefaultActionBehavior
@@ -96,16 +96,23 @@ namespace Sirius.Examples.Plugin.FurnitureInteraction
     /// Make sure to fire any events as other logic relies on it, example Wireds triggers etc.
     public class ClickShowMessageBehavior : IClickBehavior
     {
-        public event EventHandler<EntityEventArgs> Clicked;
-        public FurnitureInteractionError CanClick(Room room, Entity entity)
+        private readonly FloorFurniObject _furniObject;
+
+        public ClickShowMessageBehavior(FloorFurniObject furniObject)
         {
-            return FurnitureInteractionError.None;
+            _furniObject = furniObject;
+        }
+
+        public event EventHandler<FurniClickedEventArgs> Clicked;
+        public FurnitureInteractionError? CanClick(Room room, Entity entity)
+        {
+            return null;
         }
 
         public void OnClick(Room room, Entity entity, int? param = null)
         {
             entity.WhisperTo(entity, "You clicked me!");
-            Clicked?.Invoke(this, new EntityEventArgs { Entity = entity });
+            Clicked?.Invoke(this, new FurniClickedEventArgs(entity, _furniObject));
             room.Cycle.Schedule(() =>
             {
                 entity.WhisperTo(entity, "And here is another chat, 2 room cycles (1 second) later!");
