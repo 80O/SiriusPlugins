@@ -21,10 +21,6 @@ namespace Sirius.Examples.Plugin.FurnitureInteraction
 
     public class FurniturePlugin : IPlugin
     {
-        public FurniturePlugin()
-        {
-            Console.WriteLine("Hello World!");
-        }
     }
 
     /// <summary>
