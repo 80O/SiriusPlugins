@@ -1,4 +1,4 @@
-### Summary
+### Commands Summary
 
 To create commands, there are a couple different flavours depending on where the command is executed. Either in Sirius or on Gaia.
 
