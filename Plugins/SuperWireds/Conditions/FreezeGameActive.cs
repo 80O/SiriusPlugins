@@ -12,7 +12,7 @@ namespace SuperWireds.Conditions
 {
     public class FreezeGameActiveInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new FreezeGameActiveCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -23,7 +23,7 @@ namespace SuperWireds.Conditions
 
     public class FreezeGameActiveCondition : WiredConditionBehavior
     {
-        public FreezeGameActiveCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public FreezeGameActiveCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         public override bool Met()
         {
             if (Room.Game.HasActiveTimer)
@@ -44,7 +44,7 @@ namespace SuperWireds.Conditions
 
     public class FreezeGameNotActiveInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new FreezeGameNotActiveCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -55,7 +55,7 @@ namespace SuperWireds.Conditions
 
     public class FreezeGameNotActiveCondition : FreezeGameActiveCondition
     {
-        public FreezeGameNotActiveCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public FreezeGameNotActiveCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 

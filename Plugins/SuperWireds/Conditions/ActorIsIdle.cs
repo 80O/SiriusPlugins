@@ -10,7 +10,7 @@ namespace SuperWireds.Conditions
 {
     public class ActorIsIdleInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorIsIdleCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -21,7 +21,7 @@ namespace SuperWireds.Conditions
 
     public class NotActorIsIdleInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new NotActorIsIdleCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -32,7 +32,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsIdleCondition : WiredConditionBehavior
     {
-        public ActorIsIdleCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public ActorIsIdleCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 
@@ -47,7 +47,7 @@ namespace SuperWireds.Conditions
 
     public class NotActorIsIdleCondition : ActorIsIdleCondition
     {
-        public NotActorIsIdleCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public NotActorIsIdleCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 

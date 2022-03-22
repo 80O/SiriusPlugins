@@ -6,7 +6,7 @@ namespace SuperWireds.Handlers.Messages
     {
         public uint MessageId => 5555558;
 
-        public string Message;
+        public string Message = string.Empty;
         public uint RoomId;
 
         public void Serialize(IGSPStream stream)

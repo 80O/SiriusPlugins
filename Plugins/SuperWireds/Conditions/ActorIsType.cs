@@ -12,7 +12,7 @@ namespace SuperWireds.Conditions
 {
     public class ActorIsUserInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorIsTypeCondition<UserEntity>(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -23,7 +23,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsNotUserInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorIsNotTypeCondition<UserEntity>(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -34,7 +34,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsBotInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorIsTypeCondition<BotEntity>(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -45,7 +45,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsNotBotInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorIsNotTypeCondition<BotEntity>(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -56,7 +56,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsPetInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorIsTypeCondition<PetEntity>(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -67,7 +67,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsNotPetInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorIsNotTypeCondition<PetEntity>(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -78,7 +78,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsTypeCondition<TEntityType> : WiredConditionBehavior where TEntityType : Entity
     {
-        public ActorIsTypeCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public ActorIsTypeCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         public override bool Met() => false;
 
         public override bool Met(Entity trigger) => trigger is TEntityType;
@@ -90,7 +90,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsNotTypeCondition<TEntityType> : ActorIsTypeCondition<TEntityType> where TEntityType : Entity
     {
-        public ActorIsNotTypeCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public ActorIsNotTypeCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 

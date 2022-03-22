@@ -7,9 +7,9 @@ namespace SuperWireds.Handlers.Messages
         public uint MessageId => 5555559;
 
         public uint UserId;
-        public string Title;
-        public string Type;
-        public string Message;
+        public string Title = string.Empty;
+        public string Type = string.Empty;
+        public string Message = string.Empty;
 
         public void Serialize(IGSPStream stream)
         {

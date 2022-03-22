@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Sirius.Api.Game.Rooms.Actions;
+using Sirius.Api.Game.Notifications;
 using Sirius.Api.Game.User;
 using Sirius.Api.Messaging.Handler;
 using SuperWireds.Handlers.Messages;

@@ -9,6 +9,7 @@ namespace AvatarPoof
 
         public string Name => "Avatar Poof";
         public string Description => "Shows a cloud when changing looks";
+        public string Author => "The General";
         public Version Version => new(1, 0, 0);
     }
 }

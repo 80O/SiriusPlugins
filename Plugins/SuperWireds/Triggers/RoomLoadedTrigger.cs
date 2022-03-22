@@ -9,7 +9,7 @@ namespace SuperWireds.Triggers
 {
     public class RoomLoadedTriggerInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new RoomLoadedTrigger(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -20,13 +20,13 @@ namespace SuperWireds.Triggers
 
     public class RoomLoadedTrigger : WiredTriggerBehavior
     {
-        public RoomLoadedTrigger(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public RoomLoadedTrigger(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 
         public override WiredTrigger TriggerType => WiredTrigger.AvatarCaught;
 
-        public override void OnRoomLoad(Room room)
+        public override void OnRoomLoad(IRoom room)
         {
             base.OnRoomLoad(room);
             Triggered(null, null, WiredTriggerType.None);

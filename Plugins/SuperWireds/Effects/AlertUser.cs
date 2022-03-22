@@ -11,7 +11,7 @@ namespace SuperWireds.Effects
 {
     public class AlertUserInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
             furniObject.ActionBehavior = new AlertUserAction(room, furniObject);
@@ -22,11 +22,11 @@ namespace SuperWireds.Effects
 
     public class AlertUserAction : WiredActionBehavior
     {
-        public AlertUserAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public AlertUserAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 
-        public event EventHandler<AlertUserActionEventArgs> Alert;
+        public event EventHandler<AlertUserActionEventArgs>? Alert;
         protected override void Handle()
         {
         }

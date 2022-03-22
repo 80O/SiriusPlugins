@@ -19,7 +19,7 @@ namespace SuperWireds.Effects
             _logger = logger;
         }
 
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             _logger.LogInformation($"CREATED {furniObject.Id}");
             furniObject.ActionBehavior = new GivePointsOnceAction(room, furniObject);
@@ -46,14 +46,14 @@ namespace SuperWireds.Effects
 
     public class GivePointsOnceAction : WiredActionBehavior
     {
-        public EventHandler<GivePointsData> GivePoints;
-        public EventHandler Reset;
+        public event EventHandler<GivePointsData>? GivePoints;
+        public event EventHandler? Reset;
         private readonly FloorFurniObject _wiredItem;
 
         private uint _pointsType;
         private int _pointsAmount;
 
-        public GivePointsOnceAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public GivePointsOnceAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
             _wiredItem = wiredItem;
         }
@@ -72,7 +72,7 @@ namespace SuperWireds.Effects
         {
         }
 
-        protected override void Store(Room room, Triggerable data)
+        protected override void Store(IRoom room, Triggerable data)
         {
             base.Store(room, data);
             if (string.IsNullOrEmpty(data.StringParam)) return;
@@ -85,7 +85,7 @@ namespace SuperWireds.Effects
             data.StringParam = "PointType,Amount";
         }
 
-        public override void OnPlace(Room room)
+        public override void OnPlace(IRoom room)
         {
             base.OnPlace(room);
             Reset?.Invoke(this, EventArgs.Empty);

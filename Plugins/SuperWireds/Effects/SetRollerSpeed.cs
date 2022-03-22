@@ -11,7 +11,7 @@ namespace SuperWireds.Effects
 {
     public class SetRollerSpeedInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
             furniObject.ActionBehavior = new SetRollerSpeedAction(room, furniObject);
@@ -22,7 +22,7 @@ namespace SuperWireds.Effects
 
     public class SetRollerSpeedAction : WiredActionBehavior
     {
-        public SetRollerSpeedAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public SetRollerSpeedAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 

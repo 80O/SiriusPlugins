@@ -12,7 +12,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsDancingInteractionBuilder : IWiredInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorIsDancingCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -23,7 +23,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsDancingCondition : WiredConditionBehavior
     {
-        public ActorIsDancingCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public ActorIsDancingCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         public override bool Met() => false;
 
         public override bool Met(Entity trigger) => trigger.IsDancing;
@@ -35,7 +35,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsNotDancingInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorIsNotDancingCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -46,7 +46,7 @@ namespace SuperWireds.Conditions
 
     public class ActorIsNotDancingCondition : ActorIsDancingCondition
     {
-        public ActorIsNotDancingCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public ActorIsNotDancingCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         public override bool Met() => !base.Met();
 
         public override bool Met(Entity trigger) => !base.Met(trigger);

@@ -11,7 +11,7 @@ namespace SuperWireds.Effects
 
     public class UnFreezeUserInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new UnFreezeUserAction(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -22,7 +22,7 @@ namespace SuperWireds.Effects
 
     public class UnFreezeUserAction : WiredActionBehavior
     {
-        public UnFreezeUserAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public UnFreezeUserAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 

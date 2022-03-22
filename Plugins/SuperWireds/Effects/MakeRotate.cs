@@ -11,7 +11,7 @@ namespace SuperWireds.Effects
 {
     public class MakeRotateInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
             furniObject.ActionBehavior = new MakeRotateAction(room, furniObject);
@@ -22,7 +22,7 @@ namespace SuperWireds.Effects
 
     public class MakeRotateAction : WiredActionBehavior
     {
-        public MakeRotateAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public MakeRotateAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         protected override void Handle()
         {
         }

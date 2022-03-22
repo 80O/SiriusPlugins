@@ -10,7 +10,7 @@ namespace SuperWireds.Effects
 {
     public class MakeWaveInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
             furniObject.ActionBehavior = new MakeWaveAction(room, furniObject);
@@ -21,7 +21,7 @@ namespace SuperWireds.Effects
 
     public class MakeWaveAction : WiredActionBehavior
     {
-        public MakeWaveAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public MakeWaveAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         protected override void Handle()
         {
         }

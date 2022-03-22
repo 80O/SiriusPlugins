@@ -12,6 +12,7 @@ namespace Sirius.Examples.Plugin.BasicPlugin
     {
         public string Name => "Basic Plugin Example";
         public string Description => "Basic Plugin example to demonstrate developing plugins in Sirius";
+        public string Author => "The General";
         public Version Version => new(1, 0);
 
         /// <summary>

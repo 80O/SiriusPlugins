@@ -1,17 +1,16 @@
-﻿using System.Threading.Tasks;
-using Dapper;
+﻿using Dapper;
 using Sirius.Api.Database;
 using Sirius.Api.Game.User;
-using Sirius.Api.Messaging;
 using Sirius.Api.Messaging.Handler;
 using SuperWireds.Handlers.Messages;
+using System.Threading.Tasks;
 
 namespace SuperWireds.Handlers
 {
     /// <summary>
     /// This request handler will be loaded in Sirius and will receive the requests from Gaia.
     /// </summary>
-    public class SuperWiredsGivePointsOnceRequestHandler : RequestHandler<SuperWiredsGivePointsOnceRequest>
+    public class SuperWiredsGivePointsOnceRequestHandler : RequestHandler<SuperWiredsGivePointsOnceRequest, SuperWiredsGivePointsOnceReply>
     {
         private readonly IDatabaseConnectionProvider _database;
         private readonly IHabboCache _habboCache;
@@ -22,7 +21,7 @@ namespace SuperWireds.Handlers
             _habboCache = habboCache;
         }
 
-        public override async Task<IMessageReplyPayload?> Handle(SuperWiredsGivePointsOnceRequest payload)
+        public override async Task<SuperWiredsGivePointsOnceReply> Handle(SuperWiredsGivePointsOnceRequest payload)
         {
             using var connection = _database.Connection();
             var result = await connection.ExecuteAsync("INSERT IGNORE INTO superwireds_rewards (item_id, user_id) VALUES (@itemId, @userId);", new { itemId = payload.ItemId, userId = payload.UserId });

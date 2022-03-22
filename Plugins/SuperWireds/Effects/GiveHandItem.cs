@@ -11,7 +11,7 @@ namespace SuperWireds.Effects
 
     public class GiveHandItemInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new GiveHandItemAction(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -22,7 +22,7 @@ namespace SuperWireds.Effects
 
     public class GiveHandItemAction : WiredActionBehavior
     {
-        public GiveHandItemAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public GiveHandItemAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         protected override void Handle()
         {
         }

@@ -9,7 +9,7 @@ namespace SuperWireds.Triggers
 {
     public class UseDiceTriggerInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new UseDiceTrigger(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -20,7 +20,7 @@ namespace SuperWireds.Triggers
 
     public class UseDiceTrigger : WiredTriggerBehavior
     {
-        public UseDiceTrigger(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public UseDiceTrigger(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 
@@ -34,7 +34,7 @@ namespace SuperWireds.Triggers
 
         }
 
-        private void OnThrown(object sender, DiceInteractionEventArgs e)
+        private void OnThrown(object? sender, DiceInteractionEventArgs e)
         {
             Triggered(e.Dice, e.Entity, WiredTriggerType.Entity);
         }

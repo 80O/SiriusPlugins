@@ -12,7 +12,7 @@ namespace SuperWireds.Effects
 
     public class InClientLinkInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
             furniObject.ActionBehavior = new InClientLinkAction(room, furniObject);
@@ -23,11 +23,11 @@ namespace SuperWireds.Effects
 
     public class InClientLinkAction : WiredActionBehavior
     {
-        public InClientLinkAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public InClientLinkAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 
-        public event EventHandler<InClientLinkActionEventArgs> SendUrl;
+        public event EventHandler<InClientLinkActionEventArgs>? SendUrl;
         protected override void Handle()
         {
         }

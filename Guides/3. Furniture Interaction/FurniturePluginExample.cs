@@ -14,6 +14,7 @@ namespace Sirius.Examples.Plugin.FurnitureInteraction
     {
         public string Name => "Furniture Interaction Plugin Example";
         public string Description => "Plugin to demonstrate how to create custom furniture interaction.";
+        public string Author => "The General";
         public Version Version => new(1, 0);
 
         public Type PluginClass() => typeof(FurniturePlugin);
@@ -51,7 +52,7 @@ namespace Sirius.Examples.Plugin.FurnitureInteraction
         public string InteractionKey => "showmessage";
 
         /// This method must be implemented which is used to attach non default behaviors.
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             /// In this example a custom IWalkBehavior is attached.
             furniObject.WalkBehavior = new WalkOnShowMessageWalkBehavior(furniObject);
@@ -80,7 +81,7 @@ namespace Sirius.Examples.Plugin.FurnitureInteraction
 
         }
 
-        public override void OnWalkOn(Room room, Entity entity)
+        public override void OnWalkOn(IRoom room, Entity entity)
         {
             base.OnWalkOn(room, entity);
             entity.WhisperTo(entity, "You walked onto me!");
@@ -99,14 +100,15 @@ namespace Sirius.Examples.Plugin.FurnitureInteraction
             _furniObject = furniObject;
         }
 
-        public event EventHandler<FurniClickedEventArgs> Clicked;
-        public FurnitureInteractionError? CanClick(Room room, Entity entity)
+        public event EventHandler<FurniClickedEventArgs>? Clicked;
+        public FurnitureInteractionError? CanClick(IRoom room, Entity entity)
         {
             return null;
         }
 
-        public void OnClick(Room room, Entity entity, int? param = null)
+        public void OnClick(IRoom room, Entity? entity, int? param = null)
         {
+            if (entity == null) return;
             entity.WhisperTo(entity, "You clicked me!");
             Clicked?.Invoke(this, new FurniClickedEventArgs(entity, _furniObject));
             room.Cycle.Schedule(() =>

@@ -12,7 +12,7 @@ namespace SuperWireds.Conditions
 {
     public class DiceHasValueInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior= new DiceHasValueCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -24,7 +24,7 @@ namespace SuperWireds.Conditions
     public class DiceHasValueCondition : WiredConditionBehavior
     {
         private int _number;
-        public DiceHasValueCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public DiceHasValueCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         public override bool Met()
         {
             if (_number > 0)
@@ -36,7 +36,7 @@ namespace SuperWireds.Conditions
 
         public override bool Met(FloorFurniObject trigger) => Met();
 
-        protected override void Store(Room room, Triggerable data)
+        protected override void Store(IRoom room, Triggerable data)
         {
             base.Store(room, data);
             _number = data.IntParams.FirstOrDefault();
@@ -46,7 +46,7 @@ namespace SuperWireds.Conditions
     }
     public class NotDiceHasValueInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new NotDiceHasValueCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -57,7 +57,7 @@ namespace SuperWireds.Conditions
 
     public class NotDiceHasValueCondition : DiceHasValueCondition
     {
-        public NotDiceHasValueCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public NotDiceHasValueCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         public override bool Met() => !base.Met();
 
         public override bool Met(Entity trigger) => !base.Met(trigger);

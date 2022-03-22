@@ -10,7 +10,7 @@ namespace SuperWireds.Effects
 {
     public class WalkToFurniInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new WalkToFurniAction(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -21,7 +21,7 @@ namespace SuperWireds.Effects
 
     public class WalkToFurniAction : WiredActionBehavior
     {
-        public WalkToFurniAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public WalkToFurniAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
 
         protected override void Handle()
         {

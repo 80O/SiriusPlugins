@@ -13,6 +13,7 @@ namespace Sirius.Examples.Plugin.CommandPlugin
     {
         public string Name => "Command Example Plugin";
         public string Description => "Basic Plugin example to demonstrate developing plugins in Sirius";
+        public string Author => "The General";
         public Version Version => new(1, 0);
 
         public Type PluginClass() => typeof(CommandPlugin);
@@ -43,7 +44,7 @@ namespace Sirius.Examples.Plugin.CommandPlugin
     public class LookAtMeCommand : IRoomTargetCommand
     {
         public string Key => "lookatme";
-        public Task<CommandResult> Handle(Room room, Entity actor, Entity target, string[] parameters)
+        public Task<CommandResult> Handle(IRoom room, Entity actor, Entity target, string[] parameters)
         {
             target.LookAt(actor);
             actor.Say($"Look at me, {target.OwnerName}! I'm the captain now!");

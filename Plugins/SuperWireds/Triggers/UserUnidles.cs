@@ -10,7 +10,7 @@ namespace SuperWireds.Triggers
 {
     public class UserUnidlesInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new UserUnidlesTrigger(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -21,7 +21,7 @@ namespace SuperWireds.Triggers
 
     public class UserUnidlesTrigger : WiredTriggerBehavior
     {
-        public UserUnidlesTrigger(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public UserUnidlesTrigger(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
             room.Npcs.EntityAdded += OnEntityAdded;
             room.Npcs.EntityRemoved += OnEntityRemoved;
@@ -31,12 +31,12 @@ namespace SuperWireds.Triggers
         }
 
 
-        private void OnEntityAdded(object sender, EntityEventArgs e)
+        private void OnEntityAdded(object? sender, EntityEventArgs e)
         {
             if (e.Entity is UserEntity)
                 e.Entity.IdleStatusUpdated += OnIdleStatusUpdated;
         }
-        private void OnEntityRemoved(object sender, EntityEventArgs e)
+        private void OnEntityRemoved(object? sender, EntityEventArgs e)
         {
             if (e.Entity is UserEntity)
                 e.Entity.IdleStatusUpdated -= OnIdleStatusUpdated;
@@ -48,7 +48,7 @@ namespace SuperWireds.Triggers
                 Triggered(null, e.Entity, WiredTriggerType.Entity);
         }
 
-        public override void OnRemoved(Room room)
+        public override void OnRemoved(IRoom room)
         {
             room.Npcs.EntityAdded -= OnEntityAdded;
             room.Npcs.EntityRemoved -= OnEntityRemoved;

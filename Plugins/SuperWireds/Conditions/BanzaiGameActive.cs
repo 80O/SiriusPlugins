@@ -12,7 +12,7 @@ namespace SuperWireds.Conditions
 {
     public class BanzaiGameActiveInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new BanzaiGameActiveCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -23,7 +23,7 @@ namespace SuperWireds.Conditions
 
     public class BanzaiGameActiveCondition : WiredConditionBehavior
     {
-        public BanzaiGameActiveCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public BanzaiGameActiveCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         public override bool Met()
         {
             if (Room.Game.HasActiveTimer)
@@ -44,7 +44,7 @@ namespace SuperWireds.Conditions
 
     public class BanzaiGameNotActiveInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new BanzaiGameNotActiveCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -55,7 +55,7 @@ namespace SuperWireds.Conditions
 
     public class BanzaiGameNotActiveCondition : BanzaiGameActiveCondition
     {
-        public BanzaiGameNotActiveCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public BanzaiGameNotActiveCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 

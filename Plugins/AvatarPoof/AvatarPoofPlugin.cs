@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Gaia.Api.Rooms;
 using Gaia.Api.Rooms.Modules;
 using Sirius.Api.Game.Rooms.Engine.Unit;
@@ -12,7 +13,7 @@ namespace AvatarPoof
 
     public class AvatarModule : IRoomSessionModule
     {
-        private IRoomSession _session;
+        private IRoomSession _session = null!;
         public Task Initialize(IRoomSession session)
         {
             _session = session;
@@ -20,12 +21,12 @@ namespace AvatarPoof
             return Task.CompletedTask;
         }
 
-        private void SubscribeToPlayer(object sender, EntityEventArgs e)
+        private void SubscribeToPlayer(object? sender, EntityEventArgs e)
         {
             if (e.Entity is UserEntity user)
             {
                 if (_session.Room.ConnectedHabbos.TryGetValue(user.OwnerId, out var info))
-                    info.FigureUpdated += (_, _) => e.Entity.Effect(108, 1);
+                    info.FigureUpdated += (_, _) => e.Entity.Effect(108, TimeSpan.FromSeconds(1));
             }
         }
     }

@@ -12,7 +12,7 @@ namespace SuperWireds.Effects
     public class AlertRoomInteractionBuilder : IFurnitureInteractionBuilder
 
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new AlertRoomAction(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -23,8 +23,8 @@ namespace SuperWireds.Effects
 
     public class AlertRoomAction : WiredActionBehavior
     {
-        public event EventHandler<AlertRoomActionEventArgs> Alert;
-        public AlertRoomAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public event EventHandler<AlertRoomActionEventArgs>? Alert;
+        public AlertRoomAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
 
         protected override void Handle()
         {
@@ -41,6 +41,6 @@ namespace SuperWireds.Effects
 
     public class AlertRoomActionEventArgs : EventArgs
     {
-        public string Message { get; init; }
+        public string Message { get; init; } = string.Empty;
     }
 }

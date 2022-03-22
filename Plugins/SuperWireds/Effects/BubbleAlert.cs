@@ -11,7 +11,7 @@ namespace SuperWireds.Effects
 {
     public class BubbleAlertInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new BubbleAlertAction(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -22,12 +22,12 @@ namespace SuperWireds.Effects
 
     public class BubbleAlertAction : WiredActionBehavior
     {
-        public EventHandler<BubbleAlertEventArgs> Alert;
+        public event EventHandler<BubbleAlertEventArgs>? Alert;
 
         private string _title = "title";
         private string _type  = "type";
         private string _message = "message";
-        public BubbleAlertAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public BubbleAlertAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 
@@ -45,7 +45,7 @@ namespace SuperWireds.Effects
         {
         }
 
-        protected override void Store(Room room, Triggerable data)
+        protected override void Store(IRoom room, Triggerable data)
         {
             var parameters = data.StringParam.Split(";");
             if (parameters.Length == 3)

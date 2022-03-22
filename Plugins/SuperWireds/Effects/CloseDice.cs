@@ -10,7 +10,7 @@ namespace SuperWireds.Effects
 {
     public class CloseDiceWiredInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new CloseDiceAction(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -21,7 +21,7 @@ namespace SuperWireds.Effects
 
     public class CloseDiceAction : WiredActionBehavior
     {
-        public CloseDiceAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public CloseDiceAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         protected override void Handle() => Close();
 
         protected override void Handle(Entity trigger) => Close();

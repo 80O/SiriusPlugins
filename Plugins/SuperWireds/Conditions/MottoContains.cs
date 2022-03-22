@@ -10,7 +10,7 @@ namespace SuperWireds.Conditions
 {
     public class MottoContainsInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new MottoContainsCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -21,15 +21,15 @@ namespace SuperWireds.Conditions
 
     public class MottoContainsCondition : WiredConditionBehavior
     {
-        private string _motto;
-        public MottoContainsCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        private string _motto = string.Empty;
+        public MottoContainsCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         public override bool Met() => false;
 
         public override bool Met(Entity trigger) => trigger is UserEntity user && user.Data.Motto.Contains(_motto);
 
         public override bool Met(FloorFurniObject trigger) => false;
 
-        protected override void Store(Room room, Triggerable data)
+        protected override void Store(IRoom room, Triggerable data)
         {
             base.Store(room, data);
             _motto = data.StringParam;
@@ -39,7 +39,7 @@ namespace SuperWireds.Conditions
     }
     public class MottoNotContainsInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new MottoNotContainsCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -50,7 +50,7 @@ namespace SuperWireds.Conditions
 
     public class MottoNotContainsCondition : MottoContainsCondition
     {
-        public MottoNotContainsCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public MottoNotContainsCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         public override bool Met() => !base.Met();
 
         public override bool Met(Entity trigger) => !base.Met(trigger);

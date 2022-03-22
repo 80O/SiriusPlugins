@@ -11,7 +11,7 @@ namespace SuperWireds.Effects
 
     public class ToggleFreezeInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ToggleFreezeAction(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -22,7 +22,7 @@ namespace SuperWireds.Effects
 
     public class ToggleFreezeAction : WiredActionBehavior
     {
-        public ToggleFreezeAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public ToggleFreezeAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 

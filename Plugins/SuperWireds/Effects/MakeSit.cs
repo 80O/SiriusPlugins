@@ -10,7 +10,7 @@ namespace SuperWireds.Effects
 {
     public class MakeSitInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new MakeSitAction(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -21,7 +21,7 @@ namespace SuperWireds.Effects
 
     public class MakeSitAction : WiredActionBehavior
     {
-        public MakeSitAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public MakeSitAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         protected override void Handle()
         {
         }

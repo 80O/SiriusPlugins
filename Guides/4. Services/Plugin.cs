@@ -8,6 +8,7 @@ namespace Sirius.Examples.Plugin.Services
     {
         public string Name => "Services Plugin Example";
         public string Description => "Example how you can start standalone services and inject other services from the emulator.";
+        public string Author => "The General";
         public Version Version => new(1, 0);
 
         public void ConfigureServices(IServiceCollection serviceCollection)

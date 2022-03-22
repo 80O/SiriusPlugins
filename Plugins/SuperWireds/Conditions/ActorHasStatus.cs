@@ -13,7 +13,7 @@ namespace SuperWireds.Conditions
 {
     public class ActorHasStatusInteractionBuilder : IWiredInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorHasStatusCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -24,7 +24,7 @@ namespace SuperWireds.Conditions
 
     public class ActorHasStatusCondition : WiredConditionBehavior
     {
-        public ActorHasStatusCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public ActorHasStatusCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         public override bool Met() => false;
 
         public override bool Met(Entity trigger) => trigger.Status.Actions.Keys.Any(k => Extensions.ConvertAvatarActionToStatusCode(k).Equals(Data.StringParam));
@@ -36,7 +36,7 @@ namespace SuperWireds.Conditions
 
     public class ActorNotHasStatusInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorNotHasStatusCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -47,7 +47,7 @@ namespace SuperWireds.Conditions
 
     public class ActorNotHasStatusCondition : ActorHasStatusCondition
     {
-        public ActorNotHasStatusCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public ActorNotHasStatusCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         public override bool Met() => !base.Met();
 
         public override bool Met(Entity trigger) => !base.Met(trigger);

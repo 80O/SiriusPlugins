@@ -11,7 +11,7 @@ namespace SuperWireds.Effects
 {
     public class ShowLocalizedMessageActionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ShowLocalizedMessageAction(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -22,7 +22,7 @@ namespace SuperWireds.Effects
 
     public class ShowLocalizedMessageAction : WiredActionBehavior
     {
-        public ShowLocalizedMessageAction(Room room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+        public ShowLocalizedMessageAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
         protected override void Handle()
         {
         }

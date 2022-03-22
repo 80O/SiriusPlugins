@@ -1,24 +1,24 @@
-﻿using System;
-using System.Threading.Tasks;
-using Gaia.Api.Rooms;
+﻿using Gaia.Api.Rooms;
 using Gaia.Api.Rooms.Modules;
 using Microsoft.Extensions.Logging;
 using Sirius.Api.Game.Items;
 using Sirius.Api.Game.Rooms.Engine.Map;
 using SuperWireds.Effects;
 using SuperWireds.Handlers.Messages;
+using System;
+using System.Threading.Tasks;
 
 namespace SuperWireds
 {
     /// <summary>
     /// In Sirius emulator all ROOM logic is running in a different process / task.
     /// This room logic does not include players inventories etc. Thus we need to send a message from Gaia to Sirius
-    /// to handle giving out the credits for us. 
+    /// to handle giving out the credits for us.
     /// </summary>
     public class SuperWiredsRoomSessionModule : IRoomSessionModule
     {
         private readonly ILogger<SuperWiredsRoomSessionModule> _logger;
-        private IRoomSession _session;
+        private IRoomSession _session = null!;
 
         public SuperWiredsRoomSessionModule(ILogger<SuperWiredsRoomSessionModule> logger)
         {
@@ -38,7 +38,7 @@ namespace SuperWireds
 
             return Task.CompletedTask;
         }
-        private async void OnFloorFurnitureAdded(object sender, FloorFurnitureEventArgs e)
+        private async void OnFloorFurnitureAdded(object? sender, FloorFurnitureEventArgs e)
         {
             Register(e.FloorFurniture);
             if (e.FloorFurniture.ActionBehavior is GivePointsOnceAction)
@@ -69,7 +69,7 @@ namespace SuperWireds
                 inClientLink.SendUrl += OnInClientLink;
         }
 
-        private void OnFloorFurnitureRemoved(object sender, FloorFurnitureEventArgs e)
+        private void OnFloorFurnitureRemoved(object? sender, FloorFurnitureEventArgs e)
         {
             if (e.FloorFurniture.ActionBehavior is GivePointsOnceAction action)
                 action.GivePoints -= OnGivePoints;
@@ -99,7 +99,7 @@ namespace SuperWireds
         {
             try
             {
-                await _session.GSPClient.Connection.Send(new SuperWiredsBubbleAlertNotification
+                await _session.Send(new SuperWiredsBubbleAlertNotification
                 {
                     UserId = e.UserId,
                     Title = e.Title,
@@ -113,11 +113,11 @@ namespace SuperWireds
             }
         }
 
-        private async void OnGivePoints(object sender, GivePointsData e)
+        private async void OnGivePoints(object? sender, GivePointsData e)
         {
             try
             {
-                await _session.GSPClient.Connection.Send<SuperWiredsGivePointsOnceReply>(
+                await _session.Send<SuperWiredsGivePointsOnceReply>(
                     new SuperWiredsGivePointsOnceRequest
                     {
                         ItemId = e.ItemId,
@@ -132,7 +132,7 @@ namespace SuperWireds
             }
         }
 
-        private async void OnAlert(object sender, AlertUserActionEventArgs e)
+        private async void OnAlert(object? sender, AlertUserActionEventArgs e)
         {
             try
             {
@@ -143,7 +143,7 @@ namespace SuperWireds
                 _logger.LogError(exception, "Failed to send SuperWiredsAlertNotification message");
             }
         }
-        private async void OnRoomAlert(object sender, AlertRoomActionEventArgs e)
+        private async void OnRoomAlert(object? sender, AlertRoomActionEventArgs e)
         {
             try
             {
@@ -157,7 +157,7 @@ namespace SuperWireds
 
         private async Task ResetData(uint itemId)
         {
-            await _session.GSPClient.Connection.Send(new SuperWiredsResetNotification
+            await _session.Send(new SuperWiredsResetNotification
             {
                 ItemId = itemId
             });

@@ -11,7 +11,7 @@ namespace SuperWireds.Conditions
 {
     public class ActorHasRankInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new ActorHasRankCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -22,7 +22,7 @@ namespace SuperWireds.Conditions
 
     public class NotActorHasRankInteractionBuilder : IFurnitureInteractionBuilder
     {
-        public void AttachBehaviors(Room room, FloorFurniObject furniObject)
+        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
         {
             furniObject.ActionBehavior = new NotActorHasRankCondition(room, furniObject);
             furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
@@ -35,7 +35,7 @@ namespace SuperWireds.Conditions
     {
         private int _rankId;
 
-        public ActorHasRankCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public ActorHasRankCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 
@@ -45,7 +45,7 @@ namespace SuperWireds.Conditions
 
         public override bool Met(FloorFurniObject trigger) => false;
 
-        protected override void Store(Room room, Triggerable data)
+        protected override void Store(IRoom room, Triggerable data)
         {
             base.Store(room, data);
             _rankId = data.IntParams.FirstOrDefault();
@@ -56,7 +56,7 @@ namespace SuperWireds.Conditions
 
     public class NotActorHasRankCondition : ActorHasRankCondition
     {
-        public NotActorHasRankCondition(Room room, FloorFurniObject wiredItem) : base(room, wiredItem)
+        public NotActorHasRankCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
         {
         }
 
