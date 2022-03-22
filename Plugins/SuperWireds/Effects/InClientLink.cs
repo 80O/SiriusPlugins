@@ -7,53 +7,51 @@ using Sirius.Api.Game.Rooms.Engine.Unit;
 using Sirius.Api.Game.UserDefinedRoomEvents;
 using System;
 
-namespace SuperWireds.Effects
+namespace SuperWireds.Effects;
+
+public class InClientLinkInteractionBuilder : IFurnitureInteractionBuilder
 {
-
-    public class InClientLinkInteractionBuilder : IFurnitureInteractionBuilder
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
     {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-            furniObject.ActionBehavior = new InClientLinkAction(room, furniObject);
-        }
-
-        public string InteractionKey => "wf_act_inclient_link";
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
+        furniObject.ActionBehavior = new InClientLinkAction(room, furniObject);
     }
 
-    public class InClientLinkAction : WiredActionBehavior
+    public string InteractionKey => "wf_act_inclient_link";
+}
+
+public class InClientLinkAction : WiredActionBehavior
+{
+    public InClientLinkAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
     {
-        public InClientLinkAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
-        {
-        }
-
-        public event EventHandler<InClientLinkActionEventArgs>? SendUrl;
-        protected override void Handle()
-        {
-        }
-
-        protected override void Handle(Entity trigger)
-        {
-            if (string.IsNullOrEmpty(Data.StringParam)) return;
-            if (trigger is UserEntity user)
-                SendUrl?.Invoke(this, new InClientLinkActionEventArgs(user.OwnerId, Data.StringParam));
-        }
-
-        protected override void Handle(FloorFurniObject trigger)
-        {
-        }
-
-        public override WiredAction ActionType => WiredAction.Chat;
     }
 
-    public class InClientLinkActionEventArgs : EventArgs
+    public event EventHandler<InClientLinkActionEventArgs>? SendUrl;
+    protected override void Handle()
     {
-        public uint UserId { get; }
-        public string Url { get; }
-        public InClientLinkActionEventArgs(uint userId, string url)
-        {
-            UserId = userId;
-            Url = url;
-        }
+    }
+
+    protected override void Handle(Entity trigger)
+    {
+        if (string.IsNullOrEmpty(Data.StringParam)) return;
+        if (trigger is UserEntity user)
+            SendUrl?.Invoke(this, new InClientLinkActionEventArgs(user.OwnerId, Data.StringParam));
+    }
+
+    protected override void Handle(FloorFurniObject trigger)
+    {
+    }
+
+    public override WiredAction ActionType => WiredAction.Chat;
+}
+
+public class InClientLinkActionEventArgs : EventArgs
+{
+    public uint UserId { get; }
+    public string Url { get; }
+    public InClientLinkActionEventArgs(uint userId, string url)
+    {
+        UserId = userId;
+        Url = url;
     }
 }

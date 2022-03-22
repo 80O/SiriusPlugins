@@ -9,49 +9,48 @@ using Sirius.Api.Game.UserDefinedRoomEvents;
 using Sirius.Api.Game.UserDefinedRoomEvents.InteractionBuilders;
 using Sirius.Api.Utils;
 
-namespace SuperWireds.Conditions
+namespace SuperWireds.Conditions;
+
+public class ActorHasStatusInteractionBuilder : IWiredInteractionBuilder
 {
-    public class ActorHasStatusInteractionBuilder : IWiredInteractionBuilder
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
     {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ActionBehavior = new ActorHasStatusCondition(room, furniObject);
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-        }
-
-        public string FurnitureType => "wf_cnd_actor_has_status";
+        furniObject.ActionBehavior = new ActorHasStatusCondition(room, furniObject);
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
     }
 
-    public class ActorHasStatusCondition : WiredConditionBehavior
+    public string FurnitureType => "wf_cnd_actor_has_status";
+}
+
+public class ActorHasStatusCondition : WiredConditionBehavior
+{
+    public ActorHasStatusCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+    public override bool Met() => false;
+
+    public override bool Met(Entity trigger) => trigger.Status.Actions.Keys.Any(k => Extensions.ConvertAvatarActionToStatusCode(k).Equals(Data.StringParam));
+
+    public override bool Met(FloorFurniObject trigger) => false;
+
+    public override WiredCondition ConditionType => WiredCondition.ActorIsWearingBadge;
+}
+
+public class ActorNotHasStatusInteractionBuilder : IFurnitureInteractionBuilder
+{
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
     {
-        public ActorHasStatusCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
-        public override bool Met() => false;
-
-        public override bool Met(Entity trigger) => trigger.Status.Actions.Keys.Any(k => Extensions.ConvertAvatarActionToStatusCode(k).Equals(Data.StringParam));
-
-        public override bool Met(FloorFurniObject trigger) => false;
-
-        public override WiredCondition ConditionType => WiredCondition.ActorIsWearingBadge;
+        furniObject.ActionBehavior = new ActorNotHasStatusCondition(room, furniObject);
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
     }
 
-    public class ActorNotHasStatusInteractionBuilder : IFurnitureInteractionBuilder
-    {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ActionBehavior = new ActorNotHasStatusCondition(room, furniObject);
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-        }
+    public string InteractionKey => "wf_cnd_actor_not_has_status";
+}
 
-        public string InteractionKey => "wf_cnd_actor_not_has_status";
-    }
+public class ActorNotHasStatusCondition : ActorHasStatusCondition
+{
+    public ActorNotHasStatusCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+    public override bool Met() => !base.Met();
 
-    public class ActorNotHasStatusCondition : ActorHasStatusCondition
-    {
-        public ActorNotHasStatusCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
-        public override bool Met() => !base.Met();
+    public override bool Met(Entity trigger) => !base.Met(trigger);
 
-        public override bool Met(Entity trigger) => !base.Met(trigger);
-
-        public override bool Met(FloorFurniObject trigger) => !base.Met(trigger);
-    }
+    public override bool Met(FloorFurniObject trigger) => !base.Met(trigger);
 }

@@ -8,61 +8,60 @@ using Sirius.Api.Game.Rooms.Engine.Unit;
 using Sirius.Api.Game.UserDefinedRoomEvents;
 using System.Linq;
 
-namespace SuperWireds.Conditions
+namespace SuperWireds.Conditions;
+
+public class BanzaiGameActiveInteractionBuilder : IFurnitureInteractionBuilder
 {
-    public class BanzaiGameActiveInteractionBuilder : IFurnitureInteractionBuilder
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
     {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ActionBehavior = new BanzaiGameActiveCondition(room, furniObject);
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-        }
-
-        public string InteractionKey => "wf_cnd_banzai_active";
+        furniObject.ActionBehavior = new BanzaiGameActiveCondition(room, furniObject);
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
     }
 
-    public class BanzaiGameActiveCondition : WiredConditionBehavior
+    public string InteractionKey => "wf_cnd_banzai_active";
+}
+
+public class BanzaiGameActiveCondition : WiredConditionBehavior
+{
+    public BanzaiGameActiveCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+    public override bool Met()
     {
-        public BanzaiGameActiveCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
-        public override bool Met()
+        if (Room.Game.HasActiveTimer)
         {
-            if (Room.Game.HasActiveTimer)
-            {
-                var game = Room.Game.Games.FirstOrDefault(g => g.GetType() == typeof(BanzaiGame));
-                if (game != null && game is BanzaiGame banzaiGame)
-                    return banzaiGame.BanzaiTileFiller.HasTiles;
-            }
-            return false;
+            var game = Room.Game.Games.FirstOrDefault(g => g.GetType() == typeof(BanzaiGame));
+            if (game != null && game is BanzaiGame banzaiGame)
+                return banzaiGame.BanzaiTileFiller.HasTiles;
         }
-
-        public override bool Met(Entity trigger) => Met();
-
-        public override bool Met(FloorFurniObject trigger) => Met();
-
-        public override WiredCondition ConditionType => WiredCondition.ActorIsGroupMember;
+        return false;
     }
 
-    public class BanzaiGameNotActiveInteractionBuilder : IFurnitureInteractionBuilder
-    {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ActionBehavior = new BanzaiGameNotActiveCondition(room, furniObject);
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-        }
+    public override bool Met(Entity trigger) => Met();
 
-        public string InteractionKey => "wf_cnd_not_banzai_active";
+    public override bool Met(FloorFurniObject trigger) => Met();
+
+    public override WiredCondition ConditionType => WiredCondition.ActorIsGroupMember;
+}
+
+public class BanzaiGameNotActiveInteractionBuilder : IFurnitureInteractionBuilder
+{
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
+    {
+        furniObject.ActionBehavior = new BanzaiGameNotActiveCondition(room, furniObject);
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
     }
 
-    public class BanzaiGameNotActiveCondition : BanzaiGameActiveCondition
+    public string InteractionKey => "wf_cnd_not_banzai_active";
+}
+
+public class BanzaiGameNotActiveCondition : BanzaiGameActiveCondition
+{
+    public BanzaiGameNotActiveCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
     {
-        public BanzaiGameNotActiveCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
-        {
-        }
-
-        public override bool Met() => !base.Met();
-
-        public override bool Met(Entity trigger) => !base.Met(trigger);
-
-        public override bool Met(FloorFurniObject trigger) => !base.Met(trigger);
     }
+
+    public override bool Met() => !base.Met();
+
+    public override bool Met(Entity trigger) => !base.Met(trigger);
+
+    public override bool Met(FloorFurniObject trigger) => !base.Met(trigger);
 }

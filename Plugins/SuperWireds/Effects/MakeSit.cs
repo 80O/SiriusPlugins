@@ -6,32 +6,31 @@ using Sirius.Api.Game.Rooms;
 using Sirius.Api.Game.Rooms.Engine.Unit;
 using Sirius.Api.Game.UserDefinedRoomEvents;
 
-namespace SuperWireds.Effects
+namespace SuperWireds.Effects;
+
+public class MakeSitInteractionBuilder : IFurnitureInteractionBuilder
 {
-    public class MakeSitInteractionBuilder : IFurnitureInteractionBuilder
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
     {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ActionBehavior = new MakeSitAction(room, furniObject);
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-        }
-
-        public string InteractionKey => "wf_act_sit";
+        furniObject.ActionBehavior = new MakeSitAction(room, furniObject);
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
     }
 
-    public class MakeSitAction : WiredActionBehavior
+    public string InteractionKey => "wf_act_sit";
+}
+
+public class MakeSitAction : WiredActionBehavior
+{
+    public MakeSitAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+    protected override void Handle()
     {
-        public MakeSitAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
-        protected override void Handle()
-        {
-        }
-
-        protected override void Handle(Entity trigger) => trigger.Sit(true);
-
-        protected override void Handle(FloorFurniObject trigger)
-        {
-        }
-
-        public override WiredAction ActionType => WiredAction.LeaveTeam;
     }
+
+    protected override void Handle(Entity trigger) => trigger.Sit(true);
+
+    protected override void Handle(FloorFurniObject trigger)
+    {
+    }
+
+    public override WiredAction ActionType => WiredAction.LeaveTeam;
 }

@@ -7,37 +7,36 @@ using Sirius.Api.Game.Rooms.Engine;
 using Sirius.Api.Game.Rooms.Engine.Unit;
 using Sirius.Api.Game.UserDefinedRoomEvents;
 
-namespace SuperWireds.Effects
+namespace SuperWireds.Effects;
+
+public class MakeRotateInteractionBuilder : IFurnitureInteractionBuilder
 {
-    public class MakeRotateInteractionBuilder : IFurnitureInteractionBuilder
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
     {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-            furniObject.ActionBehavior = new MakeRotateAction(room, furniObject);
-        }
-
-        public string InteractionKey => "wf_act_make_rotate";
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
+        furniObject.ActionBehavior = new MakeRotateAction(room, furniObject);
     }
 
-    public class MakeRotateAction : WiredActionBehavior
+    public string InteractionKey => "wf_act_make_rotate";
+}
+
+public class MakeRotateAction : WiredActionBehavior
+{
+    public MakeRotateAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+    protected override void Handle()
     {
-        public MakeRotateAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
-        protected override void Handle()
-        {
-        }
-
-        protected override void Handle(Entity trigger)
-        {
-            if (!int.TryParse(Data.StringParam, out var rotationValue)) return;
-            var rotation = RotationUtils.FromValue(rotationValue);
-            trigger.SetRotation(rotation);
-        }
-
-        protected override void Handle(FloorFurniObject trigger)
-        {
-        }
-
-        public override WiredAction ActionType => WiredAction.Chat;
     }
+
+    protected override void Handle(Entity trigger)
+    {
+        if (!int.TryParse(Data.StringParam, out var rotationValue)) return;
+        var rotation = RotationUtils.FromValue(rotationValue);
+        trigger.SetRotation(rotation);
+    }
+
+    protected override void Handle(FloorFurniObject trigger)
+    {
+    }
+
+    public override WiredAction ActionType => WiredAction.Chat;
 }

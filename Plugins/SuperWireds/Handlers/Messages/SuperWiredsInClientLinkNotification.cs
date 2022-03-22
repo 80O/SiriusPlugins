@@ -1,19 +1,18 @@
 ﻿using Sirius.Api.Messaging;
 
-namespace SuperWireds.Handlers.Messages
+namespace SuperWireds.Handlers.Messages;
+
+public class SuperWiredsInClientLinkNotification : IGSPMessage
 {
-    public class SuperWiredsInClientLinkNotification : IGSPMessage
+    public uint MessageId => 5555560;
+
+    public uint UserId;
+    public string Url = string.Empty;
+
+    public void Serialize(IGSPStream stream)
     {
-        public uint MessageId => 5555560;
-
-        public uint UserId;
-        public string Url = string.Empty;
-
-        public void Serialize(IGSPStream stream)
-        {
-            stream.Serialize(ref UserId);
-            stream.Serialize(ref Url);
-        }
-
+        stream.Serialize(ref UserId);
+        stream.Serialize(ref Url);
     }
+
 }

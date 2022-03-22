@@ -7,49 +7,48 @@ using Sirius.Api.Game.Rooms.Engine.Unit;
 using Sirius.Api.Game.UserDefinedRoomEvents;
 using Sirius.Api.Game.UserDefinedRoomEvents.InteractionBuilders;
 
-namespace SuperWireds.Conditions
+namespace SuperWireds.Conditions;
+
+public class ActorCanWalkInteractionBuilder : IWiredInteractionBuilder
 {
-    public class ActorCanWalkInteractionBuilder : IWiredInteractionBuilder
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
     {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ActionBehavior = new ActorCanWalkCondition(room, furniObject);
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-        }
-
-        public string FurnitureType => "wf_cnd_actor_can_walk";
+        furniObject.ActionBehavior = new ActorCanWalkCondition(room, furniObject);
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
     }
 
-    public class ActorCanWalkCondition : WiredConditionBehavior
+    public string FurnitureType => "wf_cnd_actor_can_walk";
+}
+
+public class ActorCanWalkCondition : WiredConditionBehavior
+{
+    public ActorCanWalkCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+    public override bool Met() => false;
+
+    public override bool Met(Entity trigger) => trigger.CanWalk;
+
+    public override bool Met(FloorFurniObject trigger) => false;
+
+    public override WiredCondition ConditionType => WiredCondition.ActorIsGroupMember;
+}
+
+public class ActorCanNotWalkInteractionBuilder : IFurnitureInteractionBuilder
+{
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
     {
-        public ActorCanWalkCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
-        public override bool Met() => false;
-
-        public override bool Met(Entity trigger) => trigger.CanWalk;
-
-        public override bool Met(FloorFurniObject trigger) => false;
-
-        public override WiredCondition ConditionType => WiredCondition.ActorIsGroupMember;
+        furniObject.ActionBehavior = new ActorCanNotWalkCondition(room, furniObject);
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
     }
 
-    public class ActorCanNotWalkInteractionBuilder : IFurnitureInteractionBuilder
-    {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ActionBehavior = new ActorCanNotWalkCondition(room, furniObject);
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-        }
+    public string InteractionKey => "wf_cnd_actor_cannot_walk";
+}
 
-        public string InteractionKey => "wf_cnd_actor_cannot_walk";
-    }
+public class ActorCanNotWalkCondition : ActorCanWalkCondition
+{
+    public ActorCanNotWalkCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+    public override bool Met() => !base.Met();
 
-    public class ActorCanNotWalkCondition : ActorCanWalkCondition
-    {
-        public ActorCanNotWalkCondition(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
-        public override bool Met() => !base.Met();
+    public override bool Met(Entity trigger) => !base.Met(trigger);
 
-        public override bool Met(Entity trigger) => !base.Met(trigger);
-
-        public override bool Met(FloorFurniObject trigger) => !base.Met(trigger);
-    }
+    public override bool Met(FloorFurniObject trigger) => !base.Met(trigger);
 }

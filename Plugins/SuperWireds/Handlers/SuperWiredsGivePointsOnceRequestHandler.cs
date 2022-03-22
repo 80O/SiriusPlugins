@@ -5,32 +5,31 @@ using Sirius.Api.Messaging.Handler;
 using SuperWireds.Handlers.Messages;
 using System.Threading.Tasks;
 
-namespace SuperWireds.Handlers
+namespace SuperWireds.Handlers;
+
+/// <summary>
+/// This request handler will be loaded in Sirius and will receive the requests from Gaia.
+/// </summary>
+public class SuperWiredsGivePointsOnceRequestHandler : RequestHandler<SuperWiredsGivePointsOnceRequest, SuperWiredsGivePointsOnceReply>
 {
-    /// <summary>
-    /// This request handler will be loaded in Sirius and will receive the requests from Gaia.
-    /// </summary>
-    public class SuperWiredsGivePointsOnceRequestHandler : RequestHandler<SuperWiredsGivePointsOnceRequest, SuperWiredsGivePointsOnceReply>
+    private readonly IDatabaseConnectionProvider _database;
+    private readonly IHabboCache _habboCache;
+
+    public SuperWiredsGivePointsOnceRequestHandler(IDatabaseConnectionProvider database, IHabboCache habboCache)
     {
-        private readonly IDatabaseConnectionProvider _database;
-        private readonly IHabboCache _habboCache;
+        _database = database;
+        _habboCache = habboCache;
+    }
 
-        public SuperWiredsGivePointsOnceRequestHandler(IDatabaseConnectionProvider database, IHabboCache habboCache)
+    public override async Task<SuperWiredsGivePointsOnceReply> Handle(SuperWiredsGivePointsOnceRequest payload)
+    {
+        using var connection = _database.Connection();
+        var result = await connection.ExecuteAsync("INSERT IGNORE INTO superwireds_rewards (item_id, user_id) VALUES (@itemId, @userId);", new { itemId = payload.ItemId, userId = payload.UserId });
+        if (result != 0)
         {
-            _database = database;
-            _habboCache = habboCache;
+            var habbo = _habboCache.FindHabboById(payload.UserId);
+            habbo?.Inventory.Purse.AddPoints(payload.PointsType, payload.PointsAmount);
         }
-
-        public override async Task<SuperWiredsGivePointsOnceReply> Handle(SuperWiredsGivePointsOnceRequest payload)
-        {
-            using var connection = _database.Connection();
-            var result = await connection.ExecuteAsync("INSERT IGNORE INTO superwireds_rewards (item_id, user_id) VALUES (@itemId, @userId);", new { itemId = payload.ItemId, userId = payload.UserId });
-            if (result != 0)
-            {
-                var habbo = _habboCache.FindHabboById(payload.UserId);
-                habbo?.Inventory.Purse.AddPoints(payload.PointsType, payload.PointsAmount);
-            }
-            return new SuperWiredsGivePointsOnceReply { Given = result != 0 };
-        }
+        return new SuperWiredsGivePointsOnceReply { Given = result != 0 };
     }
 }

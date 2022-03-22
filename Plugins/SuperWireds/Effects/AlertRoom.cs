@@ -7,40 +7,39 @@ using Sirius.Api.Game.Rooms.Engine.Unit;
 using Sirius.Api.Game.UserDefinedRoomEvents;
 using System;
 
-namespace SuperWireds.Effects
+namespace SuperWireds.Effects;
+
+public class AlertRoomInteractionBuilder : IFurnitureInteractionBuilder
+
 {
-    public class AlertRoomInteractionBuilder : IFurnitureInteractionBuilder
-
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
     {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ActionBehavior = new AlertRoomAction(room, furniObject);
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-        }
-
-        public string InteractionKey => "wf_act_roomalert";
+        furniObject.ActionBehavior = new AlertRoomAction(room, furniObject);
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
     }
 
-    public class AlertRoomAction : WiredActionBehavior
+    public string InteractionKey => "wf_act_roomalert";
+}
+
+public class AlertRoomAction : WiredActionBehavior
+{
+    public event EventHandler<AlertRoomActionEventArgs>? Alert;
+    public AlertRoomAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+
+    protected override void Handle()
     {
-        public event EventHandler<AlertRoomActionEventArgs>? Alert;
-        public AlertRoomAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
-
-        protected override void Handle()
-        {
-            if (!string.IsNullOrEmpty(Data.StringParam))
-                Alert?.Invoke(this, new() {Message = Data.StringParam});
-        }
-
-        protected override void Handle(Entity trigger) => Handle();
-
-        protected override void Handle(FloorFurniObject trigger) => Handle();
-
-        public override WiredAction ActionType => WiredAction.Chat;
+        if (!string.IsNullOrEmpty(Data.StringParam))
+            Alert?.Invoke(this, new() {Message = Data.StringParam});
     }
 
-    public class AlertRoomActionEventArgs : EventArgs
-    {
-        public string Message { get; init; } = string.Empty;
-    }
+    protected override void Handle(Entity trigger) => Handle();
+
+    protected override void Handle(FloorFurniObject trigger) => Handle();
+
+    public override WiredAction ActionType => WiredAction.Chat;
+}
+
+public class AlertRoomActionEventArgs : EventArgs
+{
+    public string Message { get; init; } = string.Empty;
 }

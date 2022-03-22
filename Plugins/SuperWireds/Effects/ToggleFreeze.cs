@@ -6,38 +6,36 @@ using Sirius.Api.Game.Rooms;
 using Sirius.Api.Game.Rooms.Engine.Unit;
 using Sirius.Api.Game.UserDefinedRoomEvents;
 
-namespace SuperWireds.Effects
+namespace SuperWireds.Effects;
+
+public class ToggleFreezeInteractionBuilder : IFurnitureInteractionBuilder
 {
-
-    public class ToggleFreezeInteractionBuilder : IFurnitureInteractionBuilder
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
     {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ActionBehavior = new ToggleFreezeAction(room, furniObject);
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-        }
-
-        public string InteractionKey => "wf_act_togglefreeze_user";
+        furniObject.ActionBehavior = new ToggleFreezeAction(room, furniObject);
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
     }
 
-    public class ToggleFreezeAction : WiredActionBehavior
+    public string InteractionKey => "wf_act_togglefreeze_user";
+}
+
+public class ToggleFreezeAction : WiredActionBehavior
+{
+    public ToggleFreezeAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
     {
-        public ToggleFreezeAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem)
-        {
-        }
-
-        protected override void Handle() { }
-
-        protected override void Handle(Entity trigger)
-        {
-            if (trigger.CanWalk)
-                trigger.DisAllowWalk();
-            else
-                trigger.AllowWalk();
-        }
-
-        protected override void Handle(FloorFurniObject trigger) { }
-
-        public override WiredAction ActionType => WiredAction.Chat;
     }
+
+    protected override void Handle() { }
+
+    protected override void Handle(Entity trigger)
+    {
+        if (trigger.CanWalk)
+            trigger.DisAllowWalk();
+        else
+            trigger.AllowWalk();
+    }
+
+    protected override void Handle(FloorFurniObject trigger) { }
+
+    public override WiredAction ActionType => WiredAction.Chat;
 }

@@ -6,35 +6,34 @@ using Sirius.Api.Game.Rooms;
 using Sirius.Api.Game.Rooms.Engine.Unit;
 using Sirius.Api.Game.UserDefinedRoomEvents;
 
-namespace SuperWireds.Effects
+namespace SuperWireds.Effects;
+
+public class MakeWaveInteractionBuilder : IFurnitureInteractionBuilder
 {
-    public class MakeWaveInteractionBuilder : IFurnitureInteractionBuilder
+    public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
     {
-        public void AttachBehaviors(IRoom room, FloorFurniObject furniObject)
-        {
-            furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
-            furniObject.ActionBehavior = new MakeWaveAction(room, furniObject);
-        }
-
-        public string InteractionKey => "wf_act_make_wave";
+        furniObject.ClickBehavior = new WiredClickBehavior(furniObject);
+        furniObject.ActionBehavior = new MakeWaveAction(room, furniObject);
     }
 
-    public class MakeWaveAction : WiredActionBehavior
+    public string InteractionKey => "wf_act_make_wave";
+}
+
+public class MakeWaveAction : WiredActionBehavior
+{
+    public MakeWaveAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
+    protected override void Handle()
     {
-        public MakeWaveAction(IRoom room, FloorFurniObject wiredItem) : base(room, wiredItem) { }
-        protected override void Handle()
-        {
-        }
-
-        protected override void Handle(Entity trigger)
-        {
-            trigger.Wave();
-        }
-
-        protected override void Handle(FloorFurniObject trigger)
-        {
-        }
-
-        public override WiredAction ActionType => WiredAction.Chat;
     }
+
+    protected override void Handle(Entity trigger)
+    {
+        trigger.Wave();
+    }
+
+    protected override void Handle(FloorFurniObject trigger)
+    {
+    }
+
+    public override WiredAction ActionType => WiredAction.Chat;
 }

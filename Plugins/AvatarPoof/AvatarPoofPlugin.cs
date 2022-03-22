@@ -5,29 +5,28 @@ using Gaia.Api.Rooms.Modules;
 using Sirius.Api.Game.Rooms.Engine.Unit;
 using Sirius.Api.Plugin;
 
-namespace AvatarPoof
+namespace AvatarPoof;
+
+public class AvatarPoofPlugin : IPlugin
 {
-    public class AvatarPoofPlugin : IPlugin
+}
+
+public class AvatarModule : IRoomSessionModule
+{
+    private IRoomSession _session = null!;
+    public Task Initialize(IRoomSession session)
     {
+        _session = session;
+        session.Room.Npcs.Players.PlayerEnteredRoom += SubscribeToPlayer;
+        return Task.CompletedTask;
     }
 
-    public class AvatarModule : IRoomSessionModule
+    private void SubscribeToPlayer(object? sender, EntityEventArgs e)
     {
-        private IRoomSession _session = null!;
-        public Task Initialize(IRoomSession session)
+        if (e.Entity is UserEntity user)
         {
-            _session = session;
-            session.Room.Npcs.Players.PlayerEnteredRoom += SubscribeToPlayer;
-            return Task.CompletedTask;
-        }
-
-        private void SubscribeToPlayer(object? sender, EntityEventArgs e)
-        {
-            if (e.Entity is UserEntity user)
-            {
-                if (_session.Room.ConnectedHabbos.TryGetValue(user.OwnerId, out var info))
-                    info.FigureUpdated += (_, _) => e.Entity.Effect(108, TimeSpan.FromSeconds(1));
-            }
+            if (_session.Room.ConnectedHabbos.TryGetValue(user.OwnerId, out var info))
+                info.FigureUpdated += (_, _) => e.Entity.Effect(108, TimeSpan.FromSeconds(1));
         }
     }
 }
