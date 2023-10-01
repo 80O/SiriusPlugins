@@ -27,6 +27,8 @@ Clicks can occur via the following mechanisms:
 - Wired Toggle Furniture
 - Plugins or custom logic.
 
+If you only want to do something simple, it is often simpler to extend `DefectClickBehavior`.
+
 ##### Walking
 Walk actions and conditions are handled via the `IWalkBehavior` interface.
 
