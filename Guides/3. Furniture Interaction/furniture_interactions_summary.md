@@ -1,4 +1,4 @@
-### Commands Summary
+### Furniture Interactions Summary
 Furniture interactions are at the heart of building rooms. With furniture interactions you will be add in additional logic and make it more fun for your players to enjoy their rooms.
 
 Examples of custom furniture interactions are vendingmachines, teleporters and wireds.
